@@ -1,7 +1,7 @@
 import os
 import math
 
-numImgs = 35
+numImgs = 1
 # numGpus = 16 
 numGpus = 1
 
