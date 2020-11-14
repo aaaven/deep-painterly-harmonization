@@ -6,16 +6,16 @@ import cv2
 
 
 numImgs = 1
-# numGpus = 16 
+# numGpus = 16
 numGpus = 1
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-img_1 = io.imread('Archive/0.jpg')
-img_2 = io.imread('Archive/0_target.jpg')
+img_1 = io.imread('data/0.jpg')
+img_2 = io.imread('data/0_target.jpg')
 img_1 = img_1/255
 img_2 = img_2/255
 
-img_1_mask = io.imread('Archive/00_c_mask.jpg')      #  mask_rcnn生成  单通道
+img_1_mask = io.imread('data/00_c_mask.jpg')      #  mask_rcnn生成  单通道
 img_1_mask =img_1_mask/255
 
 
@@ -44,7 +44,7 @@ def Padding_mask(mask_img, target_img, re_h, re_w, t_h, t_w):
                 p[i,j]=1
             else:
                 p[i,j]=0
-    io.imsave('Archive/0_c_mask.jpg', p)
+    io.imsave('data/0_c_mask.jpg', p)
     return p
 
 
@@ -81,13 +81,13 @@ def mask_dilate(mask_img):
                 img1_3[i,j]=1
             else:
                 img1_3[i,j]=0
-    io.imsave('Archive/0_c_mask_dilated.jpg' , img1_3)
+    io.imsave('data/0_c_mask_dilated.jpg' , img1_3)
     return img1_3
 
 
 def tmix(target_img, p_img, mask_p_img):
     m = target_img * (1-mask_p_img) + p_img * mask_p_img
-    io.imsave('Archive/0_naive.jpg', m)
+    io.imsave('data/0_naive.jpg', m)
     return m
 
 # 生成c_mask
@@ -130,7 +130,7 @@ for j in range(1, numGpus+1):
 					   ' -index ' + str(idx) + ' -wikiart_fn data/wikiart_output.txt '\
 					   ' -output_image  results/' + str(idx) + '_final_res.jpg' \
 					   ' -print_iter 100 -save_iter 100 '\
-					   ' -num_iterations 1000 &&' 
+					   ' -num_iterations 1000 &&'
 			cmd = cmd + part_cmd1 + part_cmd2
 	cmd = cmd[1:len(cmd)-1]
 	print(cmd)
