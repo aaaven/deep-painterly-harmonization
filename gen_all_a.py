@@ -1,5 +1,6 @@
 import os
 import math
+
 from skimage import io, transform, img_as_float
 import numpy as np
 import cv2
@@ -10,12 +11,12 @@ numImgs = 1
 numGpus = 1
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-img_1 = io.imread('data/0.jpg')
+img_1 = io.imread('data/selfie.jpg')
 img_2 = io.imread('data/0_target.jpg')
 img_1 = img_1/255
 img_2 = img_2/255
 
-img_1_mask = io.imread('data/00_c_mask.jpg')      #  mask_rcnn生成  单通道
+img_1_mask = io.imread('data/selfie_mask.jpg')      #  mask_rcnn生成  单通道
 img_1_mask =img_1_mask/255
 
 
@@ -112,7 +113,7 @@ for j in range(1, numGpus+1):
 		idx = (i-1) * numGpus + (j-1)
 		if idx >= 0 and idx < numImgs:
 			print('Working on image idx = ', idx)
-			part_cmd1 =' th neural_gram.lua '\
+			part_cmd1 =' /content/torch/install/bin/th neural_gram.lua '\
 					   ' -content_image data/' + str(idx) + '_naive.jpg  '\
 					   ' -style_image   data/' + str(idx) + '_target.jpg '\
 					   ' -tmask_image   data/' + str(idx) + '_c_mask.jpg '\
@@ -120,7 +121,7 @@ for j in range(1, numGpus+1):
 					   ' -gpu ' + str(j-1) + ' -original_colors 0 -image_size 700 '\
 					   ' -output_image  results/' + str(idx) + '_inter_res.jpg'\
 					   ' -print_iter 100 -save_iter 100 && '
-			part_cmd2 =' th neural_paint.lua '\
+			part_cmd2 =' /content/torch/install/bin/th neural_paint.lua '\
 					   ' -content_image data/' + str(idx) + '_naive.jpg '\
 					   ' -style_image   data/' + str(idx) + '_target.jpg '\
 					   ' -tmask_image   data/' + str(idx) + '_c_mask.jpg '\
