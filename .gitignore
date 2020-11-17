@@ -1,0 +1,5 @@
+data/old/*
+results/old/*
+.DS_Store
+data/.DS_Store
+2remove/*
